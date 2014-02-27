@@ -1,4 +1,6 @@
 <?php
+header("Content-Type: application/json; charset=UTF-8");
+
 if(!isset($_GET['hash']))
 	die('');
 
@@ -10,7 +12,7 @@ ModuleManager::load_modules();
 DB::Execute('DELETE FROM user_reset_pass WHERE created_on<%T',array(time()-3600*2));
 
 $user_id = DB::GetOne('SELECT user_login_id FROM user_reset_pass WHERE hash_id=%s',array($_GET['hash']));
-if($user_id===false){
+if($user_id===null){
 	
 	die(__('Request failed. Authentication link is valid for 2 hours since sending request.'));
 	
